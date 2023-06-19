@@ -28,7 +28,7 @@ p {
     text-align: center;
 }
 
-.books-collection {
+#books-collection {
     margin-left: auto;
     margin-right: auto;
 }
