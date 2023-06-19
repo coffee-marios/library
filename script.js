@@ -1,4 +1,24 @@
-let myLibrary = [];
+let myLibrary = [
+  {
+    title: "The Black Swan: The Impact of the Highly Improbable",
+    author: "Nassim Nicholas Taleb",
+    pages: 394,
+    read: "yes",
+  },
+  {
+    title:
+      "Very Bad People: The Inside Story of the Fight Against the World’s Network of Corruption",
+    author: "Patrick Alley",
+    pages: 336,
+    read: "no",
+  },
+  {
+    title: "People Hacker",
+    author: "Jenny Radcliffe",
+    pages: 303,
+    read: "no",
+  },
+];
 
 const Book = function (title, author, pages, read) {
   this.title = title;

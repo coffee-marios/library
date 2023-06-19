@@ -4,7 +4,7 @@
 }
 
 body {
-    padding: 50px 255px;
+    /* padding: 50px 100px; */
     background-color: #0f0d0e;
     color: #f9f4da;
     font-size: 19px;
@@ -24,12 +24,16 @@ p {
     margin-bottom: 1rem;
 }
 
-
-
-.lists {
-    margin-left: 20px;
-    line-height: 2;
+.top-page {
+    text-align: center;
 }
+
+.books-collection {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
 
 .warning {
     padding: 5px;
@@ -38,49 +42,16 @@ p {
     margin-bottom: 2rem;
 }
 
-
-.key-code {
-    background-color: rgb(163, 170, 35);
-    padding: 2px;
-}
-
-pre {
-    line-height: 1.7;
-    font-size: 0.9rem;
-    background-color: rgb(52, 51, 49);
-    color: whitesmoke;
-    width: fit-content;
-    padding: 26px;
-    margin: 25px 11px;
+table,
+th,
+td {
+    border: 1px solid yellow;
+    border-collapse: collapse;
 
 }
 
-code {
-    /* font-family: 'Courier New', Courier, monospace; */
-    font-size: 0.8rem;
-    padding: 3px;
-}
-
-kbd {
-    font-size: 0.8rem;
-    background-color: rgb(255, 245, 50);
-    color: black;
-    padding: 3px;
-    margin-right: 2px;
-
-}
-
-samp {
-    font-size: 0.8rem;
-}
-
-p>code {
-    background-color: rgb(244, 222, 193);
-    color: rgb(105, 104, 104);
-
-}
-
-ul,
-ol {
-    margin-left: 1.6rem;
+th,
+td {
+    padding: 8px;
+    text-align: center;
 }
