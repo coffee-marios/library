@@ -27,6 +27,29 @@ const Book = function (title, author, pages, read) {
   this.read = read;
 };
 
+function addBookToLibrary() {
+  if (statusForm.style.display === "block") {
+    statusForm.style.display = "none";
+  }
+  const newTitle = document.getElementById("ftitle").value;
+  const newAuthor = document.getElementById("fauthor").value;
+  const newPages = document.getElementById("fpages").value;
+  const newRead = document.getElementById("fread").value;
+
+  const BookAdd = new Book(newTitle, newAuthor, newRead);
+  myLibrary.push(BookAdd);
+  let myBooks = document.getElementById("books-collection");
+  let newRow = myBooks.insertRow(1);
+  newRow.insertCell(0).innerHTML = newTitle;
+  newRow.insertCell(1).innerHTML = newAuthor;
+  newRow.insertCell(2).innerHTML = newPages;
+  newRow.insertCell(3).innerHTML = newRead;
+
+  newRead;
+
+  event.preventDefault();
+}
+
 Book.prototype.info = function () {
   const haveRead = function () {
     if (this.read === "yes") {
@@ -45,7 +68,7 @@ const JS = new Book(
   "no"
 );
 
-function addBookToLibrary() {
+function showLibrary() {
   let myBooks = document.getElementById("books-collection");
 
   for (let i = 0; i < myLibrary.length; i++) {
@@ -59,15 +82,14 @@ function addBookToLibrary() {
   }
 }
 
-addBookToLibrary();
+showLibrary();
 
 // console.log(JS.info());
 // console.log(Object.getPrototypeOf(JS));
 
-function showForm() {
-  let statusForm = document.getElementById("addBookForm");
-  console.log(statusForm.style.display);
+let statusForm = document.getElementById("addBookForm");
 
+function showForm() {
   statusForm.style.display === "block"
     ? (statusForm.style.display = "none")
     : (statusForm.style.display = "block");
@@ -75,3 +97,6 @@ function showForm() {
 
 const showFormButton = document.getElementById("showForm");
 showFormButton.addEventListener("click", showForm);
+
+const addBookButton = document.getElementById("addBook");
+addBookButton.addEventListener("click", addBookToLibrary);
