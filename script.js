@@ -72,21 +72,46 @@ function addBookToLibrary() {
   newRow.insertCell(0).innerHTML = newTitle;
   newRow.insertCell(1).innerHTML = newAuthor;
   newRow.insertCell(2).innerHTML = newPages;
-  newRow.insertCell(3).innerHTML = newRead;
+
+  let read_cell = newRow.insertCell(3);
+  let read_button = document.createElement("BUTTON");
+  let read_text = document.createTextNode(`--${newRead}--`);
+  read_button.appendChild(read_text);
+
+  let id_read_button = "r" + id_newRow;
+  read_button.setAttribute("id", id_read_button);
+
+  read_cell.appendChild(read_button);
+  read_button.addEventListener("click", toggleRead);
 
   newRow.dataset.idRow = id_newRow;
   console.log(newRow.dataset.idRow);
 
-  const newButton = document.createElement("button");
-  newButton.setAttribute("id", id_newRow);
+  const delete_button = document.createElement("button");
+  delete_button.setAttribute("id", id_newRow);
 
-  newRow.insertCell(4).appendChild(newButton);
+  newRow.insertCell(4).appendChild(delete_button);
 
   let del_text = document.createTextNode(`--${id_newRow}--`);
-  newButton.appendChild(del_text);
+  delete_button.appendChild(del_text);
 
-  newButton.addEventListener("click", removeBook);
+  delete_button.addEventListener("click", removeBook);
   event.preventDefault();
+}
+
+function toggleRead(e) {
+  console.clear();
+  //console.log(e.target.id, e.target.innerText);
+  let id_temp = e.target.id.slice(1);
+  //console.log(id_temp, myLibrary[id_temp]["read"]);
+  if (e.target.innerText === "no") {
+    document.getElementById(e.target.id).textContent = "yes";
+    myLibrary[id_temp]["read"] = "yes";
+  } else {
+    document.getElementById(e.target.id).textContent = "no";
+    myLibrary[id_temp]["read"] = "no";
+  }
+  console.log(myLibrary[id_temp]);
 }
 
 const JS = new Book(
@@ -107,10 +132,20 @@ function showLibrary() {
 
     let new_cell;
     console.log(myLibrary[i]["id_book"]);
-    for (let j = 0; j < 4; j++) {
+    for (let j = 0; j < 3; j++) {
       new_cell = new_row.insertCell(j);
       new_cell.textContent = Object.values(myLibrary[i])[j];
     }
+    let read_cell = new_row.insertCell(3);
+    let read_button = document.createElement("BUTTON");
+    let read_text = document.createTextNode(myLibrary[i]["read"]);
+    read_button.appendChild(read_text);
+    read_cell.appendChild(read_button);
+    read_button.addEventListener("click", toggleRead);
+
+    let id_read_button = "r" + myLibrary[i]["id_book"];
+    read_button.setAttribute("id", id_read_button);
+
     let del_cell = new_row.insertCell(4);
     var del_button = document.createElement("BUTTON");
     let del_text = document.createTextNode(`--${myLibrary[i]["id_book"]}--`);
