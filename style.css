@@ -24,9 +24,17 @@ p {
     margin-bottom: 1rem;
 }
 
+button {
+    padding: 5px;
+}
+
 .top-page,
 .main-content {
     text-align: center;
+}
+
+.delete_book {
+    background-color: red;
 }
 
 #books-collection {

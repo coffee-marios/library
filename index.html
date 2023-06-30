@@ -31,20 +31,27 @@
         <button type="button" id="showForm">NEW BOOK</button>
 
         <div class="form" id="addBookForm">
-            <form action="/action_page.php">
+            <form>
                 <label for="">Title:</label>
-                <input type="text" value="Let me know" id="ftitle"><br>
+                <input type="text" id="ftitle" oninput="setCustomValidity('')" required><br>
                 <label for="">Author:</label>
-                <input type="text" value="unknown" id="fauthor"><br>
+                <input type="text" id="fauthor" required><br>
                 <label for="">Pages:</label>
-                <input type="text" value="3333" id="fpages"><br>
+                <input type="text" id="fpages" pattern="[0-9]+" oninput="setCustomValidity('')" required><br>
                 <label for="">Read:</label>
-                <input type="text" value="no" id="fread"><br>
-                <button type="button" id="addBook">Submit</button>
+                <select name="read" id="fread" required>
+                    <option value="YES">YES</option>
+                    <option value="NO">NO</option>
+                </select>
+                <br>
+                <!-- <button type="submit" id="addBook">Submit</button> -->
+                <input id="addBook" type="button" value="Submit">
             </form>
         </div>
 
     </div>
+
+
 
 
 
