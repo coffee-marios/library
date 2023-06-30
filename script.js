@@ -35,7 +35,6 @@ const Book = function (title, author, pages, read, id_books) {
 
 const increment = function () {
   id_book += 1;
-  console.log(id_book);
   return id_book;
 };
 
@@ -95,14 +94,8 @@ function addBookToLibrary() {
       newPages.value = "-";
     }
 
-    //console.clear();
-    //console.log(Book.prototype);
-
     let id_newRow = increment();
-    console.log(`id_newRow: ${id_newRow}, see: ${see}`);
-    //console.clear();
-    console.log(id_newRow, 3333);
-    console.log(id_book);
+
     const BookAdd = new Book(
       newTitle.value,
       newAuthor.value,
@@ -159,10 +152,8 @@ function addBookToLibrary() {
 }
 
 function toggleRead(e) {
-  // console.clear();
-  //console.log(e.target.id, e.target.innerText);
   let id_temp = e.target.id.slice(1);
-  //console.log(id_temp, myLibrary[id_temp]["read"]);
+
   if (e.target.innerText === "NO") {
     document.getElementById(e.target.id).textContent = "YES";
     myLibrary[id_temp]["read"] = "YES";
@@ -170,20 +161,19 @@ function toggleRead(e) {
     document.getElementById(e.target.id).textContent = "NO";
     myLibrary[id_temp]["read"] = "NO";
   }
-  console.log(myLibrary[id_temp]);
 }
 
 var myBooks = document.getElementById("books-collection");
 
 function showLibrary() {
-  //console.clear();
+  // Shows only the books stored on the top of this file
+
   for (let i = 0; i < myLibrary.length; i++) {
     let new_row = myBooks.insertRow(1);
     new_row.dataset.idRow = myLibrary[i]["id_book"];
-    console.log(new_row.dataset.idRow);
 
     let new_cell;
-    console.log(myLibrary[i]["id_book"]);
+
     for (let j = 0; j < 3; j++) {
       new_cell = new_row.insertCell(j);
       new_cell.textContent = Object.values(myLibrary[i])[j];
@@ -210,20 +200,14 @@ function showLibrary() {
 }
 
 function removeBook(e) {
-  //console.clear();
   const id_remove = e.target.id;
-
-  console.log(myLibrary);
-  console.log(id_remove);
   myLibrary.splice(id_remove, 1);
-  console.log(myLibrary);
   document.querySelector(`[data-id-row = "${id_remove}"]`).remove();
 }
 
 showLibrary();
 
 // Form for adding more books
-
 let statusForm = document.getElementById("addBookForm");
 
 function showForm() {
