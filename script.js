@@ -102,7 +102,6 @@ function addBookToLibrary() {
       newPages.value,
       id_newRow
     );
-    console.log(BookAdd);
 
     myLibrary.push(BookAdd);
     let myBooks = document.getElementById("books-collection");
@@ -119,12 +118,17 @@ function addBookToLibrary() {
 
     let id_read_button = "r" + id_newRow;
     read_button.setAttribute("id", id_read_button);
+    read_button.setAttribute("class", "haveRead");
+
+    if (newRead.value === "YES") {
+      read_button.style.backgroundColor = "green";
+      read_button.style.color = "white";
+    }
 
     read_cell.appendChild(read_button);
     read_button.addEventListener("click", toggleRead);
 
     newRow.dataset.idRow = id_newRow;
-    console.log(newRow.dataset.idRow);
 
     const delete_button = document.createElement("button");
     delete_button.setAttribute("class", "delete_book");
@@ -157,8 +161,13 @@ function toggleRead(e) {
   if (e.target.innerText === "NO") {
     document.getElementById(e.target.id).textContent = "YES";
     myLibrary[id_temp]["read"] = "YES";
+    document.getElementById(e.target.id).style.color = "white";
+    document.getElementById(e.target.id).style.backgroundColor = "green";
   } else {
     document.getElementById(e.target.id).textContent = "NO";
+    document.getElementById(e.target.id).style.color = "black";
+    document.getElementById(e.target.id).style.backgroundColor = "orange";
+
     myLibrary[id_temp]["read"] = "NO";
   }
 }
@@ -183,10 +192,17 @@ function showLibrary() {
     let read_text = document.createTextNode(myLibrary[i]["read"]);
     read_button.appendChild(read_text);
     read_cell.appendChild(read_button);
+
+    if (myLibrary[i]["read"] === "YES") {
+      read_button.style.backgroundColor = "green";
+      read_button.style.color = "white";
+    }
+
     read_button.addEventListener("click", toggleRead);
 
     let id_read_button = "r" + myLibrary[i]["id_book"];
     read_button.setAttribute("id", id_read_button);
+    read_button.setAttribute("class", "haveRead");
 
     let del_cell = new_row.insertCell(4);
     var del_button = document.createElement("BUTTON");

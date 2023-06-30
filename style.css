@@ -5,20 +5,19 @@
 
 body {
     /* padding: 50px 100px; */
-    background-color: #0f0d0e;
+    background-color: #4632b9;
     color: #f9f4da;
     font-size: 19px;
     line-height: 1.8;
     text-align: justify;
 }
 
-h1,
-h2,
-h3,
-h4 {
-    margin-top: 4rem;
-    margin-bottom: 1.5rem;
+.top-page {
+    font-family: Impact, 'Arial Narrow Bold', sans-serif;
+    color: orange;
+    letter-spacing: 0.4rem;
 }
+
 
 p {
     margin-bottom: 1rem;
@@ -44,26 +43,55 @@ button {
 
 
 
-.warning {
-    padding: 5px;
-    background-color: red;
-    color: whitesmoke;
-    margin-bottom: 2rem;
-}
 
 table,
 th,
 td {
-    border: 1px solid yellow;
+    border: 1px solid black;
     border-collapse: collapse;
-
 }
+
+
 
 th,
 td {
-    padding: 8px;
+
     text-align: center;
 }
+
+#books-collection th {
+    background-color: rgb(0, 170, 45);
+    color: whitesmoke;
+    font-size: 1.2rem;
+    padding: 4px 20px;
+}
+
+#books-collection td {
+    font-size: 0.9rem;
+    padding: 4px 10px;
+}
+
+
+
+
+tr:nth-child(even) {
+    background-color: #bde;
+    color: black;
+}
+
+tr:nth-child(odd) {
+    background-color: rgba(231, 245, 126, 0.994);
+    color: black;
+
+}
+
+tr:hover {
+    background-color: darkgreen;
+    color: white;
+}
+
+
+
 
 .form {
     display: none;
@@ -78,4 +106,19 @@ td {
     margin-top: 2rem;
     margin: 1rem;
     padding: 10px;
+    border-radius: 11%;
+    background-color: rgba(250, 159, 114, 0.809);
+    font-weight: bold;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+#addBook {
+    padding: 5px;
+}
+
+.haveRead {
+    border-radius: 55%;
+    background-color: orange;
+    color: black;
+
 }
