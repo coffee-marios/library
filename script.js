@@ -1,239 +1,261 @@
-let myLibrary = [
-  {
-    title: "The Black Swan: The Impact of the Highly Improbable",
-    author: "Nassim Nicholas Taleb",
-    pages: 394,
-    read: "YES",
-    id_book: 0,
-  },
-  {
-    title:
-      "Very Bad People: The Inside Story of the Fight Against the World’s Network of Corruption",
-    author: "Patrick Alley",
-    pages: 336,
-    read: "NO",
-    id_book: 1,
-  },
-  {
-    title: "People Hacker",
-    author: "Jenny Radcliffe",
-    pages: 303,
-    read: "NO",
-    id_book: 2,
-  },
-];
+var myLibrary = [];
 
-let id_book = 2;
+class LibraryBooks {
+  id_book = myLibrary.length;
+  state = {};
 
-const Book = function (title, author, pages, read, id_books) {
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.read = read;
-  this.id_books = id_book;
-};
-
-const increment = function () {
-  id_book += 1;
-  return id_book;
-};
-
-const newTitle = document.getElementById("ftitle");
-const newAuthor = document.getElementById("fauthor");
-const newPages = document.getElementById("fpages");
-const newRead = document.getElementById("fread");
-
-let test = false;
-
-function testValid() {
-  // The validation of html is skipped with we submit with js
-
-  let testTitle = false;
-  let testPages = false;
-
-  if (newTitle.validity.valueMissing) {
-    newTitle.setCustomValidity("Please, write the title of the book");
-    newTitle.reportValidity();
-  } else {
-    newTitle.setCustomValidity("");
-    testTitle = true;
+  constructor(title, author, pages, read) {
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.read = read;
   }
 
-  var numbers = /^[-+]?[0-9]+$/;
-  if (newPages.value.match(numbers) || newPages.value === "") {
-    testPages = true;
-  } else if (!newPages.value.match(numbers) && newPages.value !== "") {
-    newPages.setCustomValidity("Please, write a number");
-    newPages.reportValidity();
-    testPages = false;
+  book() {
+    let new_id_book = this.id_book + 1;
+    return [this.title, this.author, this.pages, this.read, new_id_book];
   }
 
-  if (testPages === true && testTitle === true) {
-    console.log(
-      `This is a validation test: ${test}\n testTitle: ${testTitle}\n testPages= ${testPages}`
-    );
-    testPages = false;
-    testTitle = false;
-    return true;
-  } else {
-    return false;
+  addBook() {
+    let newBook = this.book();
+    myLibrary.push(newBook);
+    this.state.property = this.title;
+    console.log(this.state);
+
+    console.log(myLibrary);
   }
 }
 
-newTitle.addEventListener("input", testValid);
+var blackSwan = new LibraryBooks(
+  "The Black Swan: The Impact of the Highly Improbable",
+  "Nassim Nicholas Taleb",
+  394,
+  "read"
+);
 
-function addBookToLibrary() {
-  let see = testValid();
+blackSwan.addBook();
 
-  if (see) {
-    if (newAuthor.validity.valueMissing) {
-      newAuthor.value = "-";
-    }
+var badPeople = new LibraryBooks(
+  "Very Bad People: The Inside Story of the Fight Against the World’s Network of Corruption",
+  "Patrick Alley",
+  336,
+  "unread"
+);
 
-    if (newPages.validity.valueMissing) {
-      newPages.value = "-";
-    }
+badPeople.addBook();
 
-    let id_newRow = increment();
+var peopleHacker = new LibraryBooks(
+  "People Hacker",
+  "Jenny Radcliffe",
+  303,
+  "unread"
+);
 
-    const BookAdd = new Book(
-      newTitle.value,
-      newAuthor.value,
-      newPages.value,
-      id_newRow
-    );
+peopleHacker.addBook();
 
-    myLibrary.push(BookAdd);
-    let myBooks = document.getElementById("books-collection");
+console.log(myLibrary);
 
-    let newRow = myBooks.insertRow(1);
-    newRow.insertCell(0).innerHTML = newTitle.value;
-    newRow.insertCell(1).innerHTML = newAuthor.value;
-    newRow.insertCell(2).innerHTML = newPages.value;
+// const increment = function () {
+//   id_book += 1;
+//   return id_book;
+// };
 
-    let read_cell = newRow.insertCell(3);
-    let read_button = document.createElement("BUTTON");
-    let read_text = document.createTextNode(newRead.value);
-    read_button.appendChild(read_text);
+// const newTitle = document.getElementById("ftitle");
+// const newAuthor = document.getElementById("fauthor");
+// const newPages = document.getElementById("fpages");
+// const newRead = document.getElementById("fread");
 
-    let id_read_button = "r" + id_newRow;
-    read_button.setAttribute("id", id_read_button);
-    read_button.setAttribute("class", "haveRead");
+// let test = false;
 
-    if (newRead.value === "YES") {
-      read_button.style.backgroundColor = "green";
-      read_button.style.color = "white";
-    }
+// function testValid() {
+//   // The validation of html is skipped with we submit with js
 
-    read_cell.appendChild(read_button);
-    read_button.addEventListener("click", toggleRead);
+//   let testTitle = false;
+//   let testPages = false;
 
-    newRow.dataset.idRow = id_newRow;
+//   if (newTitle.validity.valueMissing) {
+//     newTitle.setCustomValidity("Please, write the title of the book");
+//     newTitle.reportValidity();
+//   } else {
+//     newTitle.setCustomValidity("");
+//     testTitle = true;
+//   }
 
-    const delete_button = document.createElement("button");
-    delete_button.setAttribute("class", "delete_book");
+//   var numbers = /^[-+]?[0-9]+$/;
+//   if (newPages.value.match(numbers) || newPages.value === "") {
+//     testPages = true;
+//   } else if (!newPages.value.match(numbers) && newPages.value !== "") {
+//     newPages.setCustomValidity("Please, write a number");
+//     newPages.reportValidity();
+//     testPages = false;
+//   }
 
-    delete_button.setAttribute("id", id_newRow);
+//   if (testPages === true && testTitle === true) {
+//     console.log(
+//       `This is a validation test: ${test}\n testTitle: ${testTitle}\n testPages= ${testPages}`
+//     );
+//     testPages = false;
+//     testTitle = false;
+//     return true;
+//   } else {
+//     return false;
+//   }
+// }
 
-    newRow.insertCell(4).appendChild(delete_button);
+// newTitle.addEventListener("input", testValid);
 
-    let del_text = document.createTextNode("  ");
-    delete_button.appendChild(del_text);
+// function addBookToLibrary() {
+//   let see = testValid();
 
-    delete_button.addEventListener("click", removeBook);
+//   if (see) {
+//     if (newAuthor.validity.valueMissing) {
+//       newAuthor.value = "-";
+//     }
 
-    newTitle.value = "";
-    newAuthor.value = "";
-    newPages.value = "";
+//     if (newPages.validity.valueMissing) {
+//       newPages.value = "-";
+//     }
 
-    // Remove the form
-    if (statusForm.style.display === "block") {
-      statusForm.style.display = "none";
-    }
+//     let id_newRow = increment();
 
-    event.preventDefault();
-  }
-}
+//     const BookAdd = new Book(
+//       newTitle.value,
+//       newAuthor.value,
+//       newPages.value,
+//       id_newRow
+//     );
 
-function toggleRead(e) {
-  let id_temp = e.target.id.slice(1);
+//     myLibrary.push(BookAdd);
+//     let myBooks = document.getElementById("books-collection");
 
-  if (e.target.innerText === "NO") {
-    document.getElementById(e.target.id).textContent = "YES";
-    myLibrary[id_temp]["read"] = "YES";
-    document.getElementById(e.target.id).style.color = "white";
-    document.getElementById(e.target.id).style.backgroundColor = "green";
-  } else {
-    document.getElementById(e.target.id).textContent = "NO";
-    document.getElementById(e.target.id).style.color = "black";
-    document.getElementById(e.target.id).style.backgroundColor = "orange";
+//     let newRow = myBooks.insertRow(1);
+//     newRow.insertCell(0).innerHTML = newTitle.value;
+//     newRow.insertCell(1).innerHTML = newAuthor.value;
+//     newRow.insertCell(2).innerHTML = newPages.value;
 
-    myLibrary[id_temp]["read"] = "NO";
-  }
-}
+//     let read_cell = newRow.insertCell(3);
+//     let read_button = document.createElement("BUTTON");
+//     let read_text = document.createTextNode(newRead.value);
+//     read_button.appendChild(read_text);
 
-var myBooks = document.getElementById("books-collection");
+//     let id_read_button = "r" + id_newRow;
+//     read_button.setAttribute("id", id_read_button);
+//     read_button.setAttribute("class", "haveRead");
 
-function showLibrary() {
-  // Shows only the books stored on the top of this file
+//     if (newRead.value === "YES") {
+//       read_button.style.backgroundColor = "green";
+//       read_button.style.color = "white";
+//     }
 
-  for (let i = 0; i < myLibrary.length; i++) {
-    let new_row = myBooks.insertRow(1);
-    new_row.dataset.idRow = myLibrary[i]["id_book"];
+//     read_cell.appendChild(read_button);
+//     read_button.addEventListener("click", toggleRead);
 
-    let new_cell;
+//     newRow.dataset.idRow = id_newRow;
 
-    for (let j = 0; j < 3; j++) {
-      new_cell = new_row.insertCell(j);
-      new_cell.textContent = Object.values(myLibrary[i])[j];
-    }
-    let read_cell = new_row.insertCell(3);
-    let read_button = document.createElement("BUTTON");
-    let read_text = document.createTextNode(myLibrary[i]["read"]);
-    read_button.appendChild(read_text);
-    read_cell.appendChild(read_button);
+//     const delete_button = document.createElement("button");
+//     delete_button.setAttribute("class", "delete_book");
 
-    if (myLibrary[i]["read"] === "YES") {
-      read_button.style.backgroundColor = "green";
-      read_button.style.color = "white";
-    }
+//     delete_button.setAttribute("id", id_newRow);
 
-    read_button.addEventListener("click", toggleRead);
+//     newRow.insertCell(4).appendChild(delete_button);
 
-    let id_read_button = "r" + myLibrary[i]["id_book"];
-    read_button.setAttribute("id", id_read_button);
-    read_button.setAttribute("class", "haveRead");
+//     let del_text = document.createTextNode("  ");
+//     delete_button.appendChild(del_text);
 
-    let del_cell = new_row.insertCell(4);
-    var del_button = document.createElement("BUTTON");
-    let del_text = document.createTextNode("  ");
-    del_button.appendChild(del_text);
-    del_button.setAttribute("class", "delete_book");
-    del_button.setAttribute("id", myLibrary[i]["id_book"]);
-    del_cell.appendChild(del_button);
-    del_button.addEventListener("click", removeBook);
-  }
-}
+//     delete_button.addEventListener("click", removeBook);
 
-function removeBook(e) {
-  const id_remove = e.target.id;
-  myLibrary.splice(id_remove, 1);
-  document.querySelector(`[data-id-row = "${id_remove}"]`).remove();
-}
+//     newTitle.value = "";
+//     newAuthor.value = "";
+//     newPages.value = "";
 
-showLibrary();
+//     // Remove the form
+//     if (statusForm.style.display === "block") {
+//       statusForm.style.display = "none";
+//     }
 
-// Form for adding more books
-let statusForm = document.getElementById("addBookForm");
+//     event.preventDefault();
+//   }
+// }
 
-function showForm() {
-  statusForm.style.display === "block"
-    ? (statusForm.style.display = "none")
-    : (statusForm.style.display = "block");
-}
+// function toggleRead(e) {
+//   let id_temp = e.target.id.slice(1);
 
-const showFormButton = document.getElementById("showForm");
-showFormButton.addEventListener("click", showForm);
+//   if (e.target.innerText === "NO") {
+//     document.getElementById(e.target.id).textContent = "YES";
+//     myLibrary[id_temp]["read"] = "YES";
+//     document.getElementById(e.target.id).style.color = "white";
+//     document.getElementById(e.target.id).style.backgroundColor = "green";
+//   } else {
+//     document.getElementById(e.target.id).textContent = "NO";
+//     document.getElementById(e.target.id).style.color = "black";
+//     document.getElementById(e.target.id).style.backgroundColor = "orange";
 
-const addBookButton = document.getElementById("addBook");
-addBookButton.addEventListener("click", addBookToLibrary);
+//     myLibrary[id_temp]["read"] = "NO";
+//   }
+// }
+
+// var myBooks = document.getElementById("books-collection");
+
+// function showLibrary() {
+//   // Shows only the books stored on the top of this file
+
+//   for (let i = 0; i < myLibrary.length; i++) {
+//     let new_row = myBooks.insertRow(1);
+//     new_row.dataset.idRow = myLibrary[i]["id_book"];
+
+//     let new_cell;
+
+//     for (let j = 0; j < 3; j++) {
+//       new_cell = new_row.insertCell(j);
+//       new_cell.textContent = Object.values(myLibrary[i])[j];
+//     }
+//     let read_cell = new_row.insertCell(3);
+//     let read_button = document.createElement("BUTTON");
+//     let read_text = document.createTextNode(myLibrary[i]["read"]);
+//     read_button.appendChild(read_text);
+//     read_cell.appendChild(read_button);
+
+//     if (myLibrary[i]["read"] === "YES") {
+//       read_button.style.backgroundColor = "green";
+//       read_button.style.color = "white";
+//     }
+
+//     read_button.addEventListener("click", toggleRead);
+
+//     let id_read_button = "r" + myLibrary[i]["id_book"];
+//     read_button.setAttribute("id", id_read_button);
+//     read_button.setAttribute("class", "haveRead");
+
+//     let del_cell = new_row.insertCell(4);
+//     var del_button = document.createElement("BUTTON");
+//     let del_text = document.createTextNode("  ");
+//     del_button.appendChild(del_text);
+//     del_button.setAttribute("class", "delete_book");
+//     del_button.setAttribute("id", myLibrary[i]["id_book"]);
+//     del_cell.appendChild(del_button);
+//     del_button.addEventListener("click", removeBook);
+//   }
+// }
+
+// function removeBook(e) {
+//   const id_remove = e.target.id;
+//   myLibrary.splice(id_remove, 1);
+//   document.querySelector(`[data-id-row = "${id_remove}"]`).remove();
+// }
+
+// showLibrary();
+
+// // Form for adding more books
+// let statusForm = document.getElementById("addBookForm");
+
+// function showForm() {
+//   statusForm.style.display === "block"
+//     ? (statusForm.style.display = "none")
+//     : (statusForm.style.display = "block");
+// }
+
+// const showFormButton = document.getElementById("showForm");
+// showFormButton.addEventListener("click", showForm);
+
+// const addBookButton = document.getElementById("addBook");
+// addBookButton.addEventListener("click", addBookToLibrary);
