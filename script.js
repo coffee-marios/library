@@ -3,6 +3,7 @@ const newTitle = document.getElementById("ftitle");
 const newAuthor = document.getElementById("fauthor");
 const newPages = document.getElementById("fpages");
 const newRead = document.getElementById("fread");
+let myBooks = document.getElementById("books-collection");
 
 class LibraryBooks {
   id_book = myLibrary.length;
@@ -12,16 +13,14 @@ class LibraryBooks {
     this.author = author;
     this.pages = pages;
     this.read = read;
-  }
-
-  book() {
-    let new_id_book = this.id_book + 1;
-    return [this.title, this.author, this.pages, this.read, new_id_book];
+    this.registry = { title, author, pages, read };
   }
 
   addBook() {
-    let newBook = this.book();
-    myLibrary.push(newBook);
+    let new_id_book = this.id_book + 1;
+    this.registry.id_book = new_id_book;
+
+    myLibrary.push(this.registry);
 
     console.log(myLibrary);
   }
@@ -59,8 +58,8 @@ peopleHacker.addBook();
 function includesBook(arrayBook) {
   for (let i = 0; i < myLibrary.length; i++) {
     if (
-      myLibrary[i].includes(arrayBook[0]) &&
-      myLibrary[i].includes(arrayBook[1])
+      myLibrary[i].title == arrayBook[0] &&
+      myLibrary[i].author == arrayBook[1]
     ) {
       return true;
     }
@@ -216,46 +215,48 @@ function toggleRead(e) {
 
 // var myBooks = document.getElementById("books-collection");
 
-// function showLibrary() {
-//   // Shows only the books stored on the top of this file
+function showLibrary() {
+  // Shows only the books stored on the top of this file
 
-//   for (let i = 0; i < myLibrary.length; i++) {
-//     let new_row = myBooks.insertRow(1);
-//     new_row.dataset.idRow = myLibrary[i]["id_book"];
+  for (let i = 0; i < myLibrary.length; i++) {
+    let new_row = myBooks.insertRow(1);
+    new_row.dataset.idRow = myLibrary[i]["id_book"];
 
-//     let new_cell;
+    let new_cell;
 
-//     for (let j = 0; j < 3; j++) {
-//       new_cell = new_row.insertCell(j);
-//       new_cell.textContent = Object.values(myLibrary[i])[j];
-//     }
-//     let read_cell = new_row.insertCell(3);
-//     let read_button = document.createElement("BUTTON");
-//     let read_text = document.createTextNode(myLibrary[i]["read"]);
-//     read_button.appendChild(read_text);
-//     read_cell.appendChild(read_button);
+    for (let j = 0; j < 3; j++) {
+      new_cell = new_row.insertCell(j);
+      new_cell.textContent = Object.values(myLibrary[i])[j];
+      console.log();
+    }
+    let read_cell = new_row.insertCell(3);
+    let read_button = document.createElement("BUTTON");
+    let read_text = document.createTextNode(myLibrary[i]["read"]);
+    console.log();
+    read_button.appendChild(read_text);
+    read_cell.appendChild(read_button);
 
-//     if (myLibrary[i]["read"] === "YES") {
-//       read_button.style.backgroundColor = "green";
-//       read_button.style.color = "white";
-//     }
+    if (myLibrary[i]["read"] === "read") {
+      read_button.style.backgroundColor = "green";
+      read_button.style.color = "white";
+    }
 
-//     read_button.addEventListener("click", toggleRead);
+    read_button.addEventListener("click", toggleRead);
 
-//     let id_read_button = "r" + myLibrary[i]["id_book"];
-//     read_button.setAttribute("id", id_read_button);
-//     read_button.setAttribute("class", "haveRead");
+    let id_read_button = "r" + myLibrary[i]["id_book"];
+    read_button.setAttribute("id", id_read_button);
+    read_button.setAttribute("class", "haveRead");
 
-//     let del_cell = new_row.insertCell(4);
-//     var del_button = document.createElement("BUTTON");
-//     let del_text = document.createTextNode("  ");
-//     del_button.appendChild(del_text);
-//     del_button.setAttribute("class", "delete_book");
-//     del_button.setAttribute("id", myLibrary[i]["id_book"]);
-//     del_cell.appendChild(del_button);
-//     del_button.addEventListener("click", removeBook);
-//   }
-// }
+    let del_cell = new_row.insertCell(4);
+    var del_button = document.createElement("BUTTON");
+    let del_text = document.createTextNode("  ");
+    del_button.appendChild(del_text);
+    del_button.setAttribute("class", "delete_book");
+    del_button.setAttribute("id", myLibrary[i]["id_book"]);
+    del_cell.appendChild(del_button);
+    //del_button.addEventListener("click", removeBook);
+  }
+}
 
 // function removeBook(e) {
 //   const id_remove = e.target.id;
@@ -263,7 +264,7 @@ function toggleRead(e) {
 //   document.querySelector(`[data-id-row = "${id_remove}"]`).remove();
 // }
 
-// showLibrary();
+showLibrary();
 
 // // Form for adding more books
 let statusForm = document.getElementById("addBookForm");
