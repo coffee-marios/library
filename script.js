@@ -1,8 +1,11 @@
 var myLibrary = [];
+const newTitle = document.getElementById("ftitle");
+const newAuthor = document.getElementById("fauthor");
+const newPages = document.getElementById("fpages");
+const newRead = document.getElementById("fread");
 
 class LibraryBooks {
   id_book = myLibrary.length;
-  state = {};
 
   constructor(title, author, pages, read) {
     this.title = title;
@@ -19,8 +22,6 @@ class LibraryBooks {
   addBook() {
     let newBook = this.book();
     myLibrary.push(newBook);
-    this.state.property = this.title;
-    console.log(this.state);
 
     console.log(myLibrary);
   }
@@ -51,58 +52,77 @@ var peopleHacker = new LibraryBooks(
   "unread"
 );
 
+var fakeBook = ["People Hacker", "Jenny Radcliffe", 303, "unread"];
+
 peopleHacker.addBook();
 
-console.log(myLibrary);
+function includesBook(arrayBook) {
+  for (let i = 0; i < myLibrary.length; i++) {
+    if (
+      myLibrary[i].includes(arrayBook[0]) &&
+      myLibrary[i].includes(arrayBook[1])
+    ) {
+      return true;
+    }
+  }
 
-// const increment = function () {
-//   id_book += 1;
-//   return id_book;
-// };
+  console.log("include");
+  console.log("title", arrayBook[0]);
+  console.log("author", arrayBook[1]);
+  //alert("the title doesn't exist");
+  return false;
+}
 
-// const newTitle = document.getElementById("ftitle");
-// const newAuthor = document.getElementById("fauthor");
-// const newPages = document.getElementById("fpages");
-// const newRead = document.getElementById("fread");
+includesBook(fakeBook);
 
-// let test = false;
+// Test before submitting a book
+let test = false;
 
-// function testValid() {
-//   // The validation of html is skipped with we submit with js
+function testValid() {
+  // The validation of html is skipped with we submit with js
 
-//   let testTitle = false;
-//   let testPages = false;
+  let testTitle = false;
+  let testPages = false;
+  let title1 = newTitle.value;
+  let author1 = newAuthor.value;
+  let approvalRating = includesBook([title1, author1]);
 
-//   if (newTitle.validity.valueMissing) {
-//     newTitle.setCustomValidity("Please, write the title of the book");
-//     newTitle.reportValidity();
-//   } else {
-//     newTitle.setCustomValidity("");
-//     testTitle = true;
-//   }
+  if (approvalRating) {
+    newTitle.setCustomValidity("Please, write the title of a new book");
+    newTitle.reportValidity();
+  }
 
-//   var numbers = /^[-+]?[0-9]+$/;
-//   if (newPages.value.match(numbers) || newPages.value === "") {
-//     testPages = true;
-//   } else if (!newPages.value.match(numbers) && newPages.value !== "") {
-//     newPages.setCustomValidity("Please, write a number");
-//     newPages.reportValidity();
-//     testPages = false;
-//   }
+  if (newTitle.validity.valueMissing && approvalRating) {
+    newTitle.setCustomValidity("Please, write the title of a new book");
+    newTitle.reportValidity();
+  } else {
+    newTitle.setCustomValidity("");
+    testTitle = true;
+  }
 
-//   if (testPages === true && testTitle === true) {
-//     console.log(
-//       `This is a validation test: ${test}\n testTitle: ${testTitle}\n testPages= ${testPages}`
-//     );
-//     testPages = false;
-//     testTitle = false;
-//     return true;
-//   } else {
-//     return false;
-//   }
-// }
+  var numbers = /^[-+]?[0-9]+$/;
+  if (newPages.value.match(numbers) || newPages.value === "") {
+    testPages = true;
+  } else if (!newPages.value.match(numbers) && newPages.value !== "") {
+    newPages.setCustomValidity("Please, write a number");
+    newPages.reportValidity();
+    testPages = false;
+  }
 
-// newTitle.addEventListener("input", testValid);
+  if (testPages === true && testTitle === true) {
+    console.log(
+      `This is a validation test: ${test}\n testTitle: ${testTitle}\n testPages= ${testPages}`
+    );
+    testPages = false;
+    testTitle = false;
+
+    return true;
+  } else {
+    return false;
+  }
+}
+
+newTitle.addEventListener("input", testValid);
 
 // function addBookToLibrary() {
 //   let see = testValid();
@@ -177,22 +197,22 @@ console.log(myLibrary);
 //   }
 // }
 
-// function toggleRead(e) {
-//   let id_temp = e.target.id.slice(1);
+function toggleRead(e) {
+  let id_temp = e.target.id.slice(1);
 
-//   if (e.target.innerText === "NO") {
-//     document.getElementById(e.target.id).textContent = "YES";
-//     myLibrary[id_temp]["read"] = "YES";
-//     document.getElementById(e.target.id).style.color = "white";
-//     document.getElementById(e.target.id).style.backgroundColor = "green";
-//   } else {
-//     document.getElementById(e.target.id).textContent = "NO";
-//     document.getElementById(e.target.id).style.color = "black";
-//     document.getElementById(e.target.id).style.backgroundColor = "orange";
+  if (e.target.innerText === "NO") {
+    document.getElementById(e.target.id).textContent = "YES";
+    myLibrary[id_temp]["read"] = "YES";
+    document.getElementById(e.target.id).style.color = "white";
+    document.getElementById(e.target.id).style.backgroundColor = "green";
+  } else {
+    document.getElementById(e.target.id).textContent = "NO";
+    document.getElementById(e.target.id).style.color = "black";
+    document.getElementById(e.target.id).style.backgroundColor = "orange";
 
-//     myLibrary[id_temp]["read"] = "NO";
-//   }
-// }
+    myLibrary[id_temp]["read"] = "NO";
+  }
+}
 
 // var myBooks = document.getElementById("books-collection");
 
@@ -246,16 +266,49 @@ console.log(myLibrary);
 // showLibrary();
 
 // // Form for adding more books
-// let statusForm = document.getElementById("addBookForm");
+let statusForm = document.getElementById("addBookForm");
 
-// function showForm() {
-//   statusForm.style.display === "block"
-//     ? (statusForm.style.display = "none")
-//     : (statusForm.style.display = "block");
-// }
+function showForm() {
+  statusForm.style.display === "block"
+    ? (statusForm.style.display = "none")
+    : (statusForm.style.display = "block");
+}
 
-// const showFormButton = document.getElementById("showForm");
-// showFormButton.addEventListener("click", showForm);
+const showFormButton = document.getElementById("showForm");
+showFormButton.addEventListener("click", showForm);
 
-// const addBookButton = document.getElementById("addBook");
-// addBookButton.addEventListener("click", addBookToLibrary);
+const addBookButton = document.getElementById("addBook");
+addBookButton.addEventListener("click", addBookArray);
+
+function addBookArray() {
+  let title1 = newTitle.value;
+  let author1 = newAuthor.value;
+  let approvalTesting = testValid();
+  let approvalRating = includesBook([title1, author1]);
+
+  // We don't want to add a book without a title
+  if (title1 == "" && author1 == "") {
+    statusForm.style.display = "none";
+  }
+  // We don't want to add the same book twice
+  else if (approvalRating) {
+    newTitle.setCustomValidity("Please, write the title of a new book");
+    newTitle.reportValidity();
+  } else {
+    if (approvalTesting) {
+      let approvedBook = new LibraryBooks(
+        newTitle.value,
+        newAuthor.value,
+        newPages.value,
+        newRead.value
+      );
+      approvedBook.addBook();
+    }
+    // Remove the form
+    if (statusForm.style.display === "block") {
+      statusForm.style.display = "none";
+    }
+
+    event.preventDefault();
+  }
+}
