@@ -1,10 +1,21 @@
 var myLibrary = [];
 
+// elements
 const newTitle = document.getElementById("ftitle");
 const newAuthor = document.getElementById("fauthor");
 const newPages = document.getElementById("fpages");
 const newRead = document.getElementById("fread");
 let myBooks = document.getElementById("books-collection");
+
+// Form for adding more books
+let statusForm = document.getElementById("addBookForm");
+
+// Elements with event listeners
+const showFormButton = document.getElementById("showForm");
+showFormButton.addEventListener("click", showForm);
+
+const addBookButton = document.getElementById("addBook");
+addBookButton.addEventListener("click", addBookBackstage);
 
 class LibraryBooks {
   constructor(title, author, pages, read) {
@@ -23,6 +34,7 @@ class LibraryBooks {
   }
 }
 
+// prepared books
 var blackSwan = new LibraryBooks(
   "The Black Swan: The Impact of the Highly Improbable",
   "Nassim Nicholas Taleb",
@@ -48,8 +60,6 @@ var peopleHacker = new LibraryBooks(
   "unread"
 );
 
-var fakeBook = ["People Hacker", "Jenny Radcliffe", 303, "unread"];
-
 peopleHacker.addBook();
 
 function includesBook(arrayBook) {
@@ -65,26 +75,18 @@ function includesBook(arrayBook) {
   return false;
 }
 
-includesBook(fakeBook);
-
-// Test before submitting a book
-let test = false;
-
 function testValid() {
-  // The validation of html is skipped with we submit with js
-
   let testTitle = false;
   let testPages = false;
-  let title1 = newTitle.value;
-  let author1 = newAuthor.value;
-  let approvalRating = includesBook([title1, author1]);
+
+  let approvalRating = includesBook([newTitle.value, newAuthor.value]);
 
   if (approvalRating) {
     newTitle.setCustomValidity("Please, write the title of a new book");
     newTitle.reportValidity();
   }
 
-  if (newTitle.validity.valueMissing && approvalRating) {
+  if (newTitle.validity.valueMissing) {
     newTitle.setCustomValidity("Please, write the title of a new book");
     newTitle.reportValidity();
   } else {
@@ -101,10 +103,7 @@ function testValid() {
     testPages = false;
   }
 
-  if (testPages === true && testTitle === true) {
-    console.log(
-      `This is a validation test: ${test}\n testTitle: ${testTitle}\n testPages= ${testPages}`
-    );
+  if (testPages === true && testTitle === true && testPages === true) {
     testPages = false;
     testTitle = false;
 
@@ -113,8 +112,6 @@ function testValid() {
     return false;
   }
 }
-
-newTitle.addEventListener("input", testValid);
 
 function addBookDom(newBook) {
   if (newAuthor.validity.valueMissing) {
@@ -159,7 +156,7 @@ function addBookDom(newBook) {
   let del_text = document.createTextNode("  ");
   delete_button.appendChild(del_text);
 
-  //delete_button.addEventListener("click", removeBook);
+  delete_button.addEventListener("click", removeBook);
 
   newTitle.value = "";
   newAuthor.value = "";
@@ -189,8 +186,6 @@ function toggleRead(e) {
     myLibrary[id_temp]["read"] = "NO";
   }
 }
-
-// var myBooks = document.getElementById("books-collection");
 
 function showLibrary() {
   // Shows only the books stored on the top of this file
@@ -231,32 +226,23 @@ function showLibrary() {
     del_button.setAttribute("class", "delete_book");
     del_button.setAttribute("id", myLibrary[i]["id_book"]);
     del_cell.appendChild(del_button);
-    //del_button.addEventListener("click", removeBook);
+    del_button.addEventListener("click", removeBook);
   }
 }
 
-// function removeBook(e) {
-//   const id_remove = e.target.id;
-//   myLibrary.splice(id_remove, 1);
-//   document.querySelector(`[data-id-row = "${id_remove}"]`).remove();
-// }
+function removeBook(e) {
+  const id_remove = e.target.id;
+  myLibrary.splice(id_remove, 1);
+  document.querySelector(`[data-id-row = "${id_remove}"]`).remove();
+}
 
 showLibrary();
-
-// // Form for adding more books
-let statusForm = document.getElementById("addBookForm");
 
 function showForm() {
   statusForm.style.display === "block"
     ? (statusForm.style.display = "none")
     : (statusForm.style.display = "block");
 }
-
-const showFormButton = document.getElementById("showForm");
-showFormButton.addEventListener("click", showForm);
-
-const addBookButton = document.getElementById("addBook");
-addBookButton.addEventListener("click", addBookBackstage);
 
 function addBookBackstage() {
   let title1 = newTitle.value;
@@ -282,10 +268,10 @@ function addBookBackstage() {
       );
       approvedBook.addBook();
       addBookDom(approvedBook);
-    }
-    // Remove the form
-    if (statusForm.style.display === "block") {
-      statusForm.style.display = "none";
+      // Remove the form
+      if (statusForm.style.display === "block") {
+        statusForm.style.display = "none";
+      }
     }
 
     event.preventDefault();
