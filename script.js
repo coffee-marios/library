@@ -11,8 +11,8 @@ let myBooks = document.getElementById("books-collection");
 let statusForm = document.getElementById("addBookForm");
 
 // Elements with event listeners
-const showFormButton = document.getElementById("showForm");
-showFormButton.addEventListener("click", showForm);
+const showFormElement = document.getElementById("showFormButton");
+showFormElement.addEventListener("click", showForm);
 
 const addBookButton = document.getElementById("addBook");
 addBookButton.addEventListener("click", addBookBackstage);
