@@ -39,7 +39,7 @@ var blackSwan = new LibraryBooks(
   "The Black Swan: The Impact of the Highly Improbable",
   "Nassim Nicholas Taleb",
   394,
-  "read"
+  "Yes"
 );
 
 blackSwan.addBook();
@@ -48,7 +48,7 @@ var badPeople = new LibraryBooks(
   "Very Bad People: The Inside Story of the Fight Against the World’s Network of Corruption",
   "Patrick Alley",
   336,
-  "unread"
+  "No"
 );
 
 badPeople.addBook();
@@ -57,7 +57,7 @@ var peopleHacker = new LibraryBooks(
   "People Hacker",
   "Jenny Radcliffe",
   303,
-  "unread"
+  "No"
 );
 
 peopleHacker.addBook();
@@ -136,7 +136,7 @@ function addBookDom(newBook) {
   read_button.setAttribute("id", id_read_button);
   read_button.setAttribute("class", "haveRead");
 
-  if (newRead.value === "YES") {
+  if (newRead.value === "read") {
     read_button.style.backgroundColor = "green";
     read_button.style.color = "white";
   }
@@ -173,13 +173,13 @@ function addBookDom(newBook) {
 function toggleRead(e) {
   let id_temp = e.target.id.slice(1);
 
-  if (e.target.innerText === "NO") {
-    document.getElementById(e.target.id).textContent = "YES";
-    myLibrary[id_temp]["read"] = "YES";
+  if (e.target.innerText === "No") {
+    document.getElementById(e.target.id).textContent = "Yes";
+    myLibrary[id_temp]["read"] = "Yes";
     document.getElementById(e.target.id).style.color = "white";
     document.getElementById(e.target.id).style.backgroundColor = "green";
   } else {
-    document.getElementById(e.target.id).textContent = "NO";
+    document.getElementById(e.target.id).textContent = "No";
     document.getElementById(e.target.id).style.color = "black";
     document.getElementById(e.target.id).style.backgroundColor = "orange";
 
@@ -204,7 +204,7 @@ function showLibrary() {
     let read_cell = new_row.insertCell(3);
     let read_button = document.createElement("BUTTON");
     let read_text = document.createTextNode(myLibrary[i]["read"]);
-    console.log();
+
     read_button.appendChild(read_text);
     read_cell.appendChild(read_button);
 
