@@ -15,22 +15,69 @@ const showFormElement = document.getElementById("showFormButton");
 showFormElement.addEventListener("click", showForm);
 
 const addBookButton = document.getElementById("addBook");
-addBookButton.addEventListener("click", addBookBackstage);
+addBookButton.addEventListener("click", addBookHandle);
 
 class LibraryBooks {
+  id_book = myLibrary.length + 1;
   constructor(title, author, pages, read) {
     this.title = title;
     this.author = author;
     this.pages = pages;
     this.read = read;
-    let id_book = myLibrary.length + 1;
-    this.registry = { title, author, pages, read, id_book };
+    this.registry = { title, author, pages, read };
   }
 
   addBook() {
+    this.registry.id_book = this.id_book;
     myLibrary.push(this.registry);
 
-    console.log(myLibrary);
+    if (this.author === "") {
+      this.author = "-";
+    }
+
+    if (this.pages === "") {
+      this.pages = "-";
+    }
+
+    let newRow = myBooks.insertRow(1);
+    newRow.insertCell(0).innerHTML = this.title;
+    newRow.insertCell(1).innerHTML = this.author;
+    newRow.insertCell(2).innerHTML = this.pages;
+
+    let read_cell = newRow.insertCell(3);
+    let read_button = document.createElement("BUTTON");
+    let read_text = document.createTextNode(this.read);
+    read_button.appendChild(read_text);
+
+    let id_read_button = "r" + this.id_book;
+    read_button.setAttribute("id", id_read_button);
+    read_button.setAttribute("class", "haveRead");
+
+    if (newRead.value === "read") {
+      read_button.style.backgroundColor = "green";
+      read_button.style.color = "white";
+    }
+
+    read_cell.appendChild(read_button);
+    read_button.addEventListener("click", toggleRead);
+
+    newRow.dataset.idRow = this.id_book;
+
+    const delete_button = document.createElement("button");
+    delete_button.setAttribute("class", "delete_book");
+
+    delete_button.setAttribute("id", this.id_book);
+
+    newRow.insertCell(4).appendChild(delete_button);
+
+    let del_text = document.createTextNode("  ");
+    delete_button.appendChild(del_text);
+
+    delete_button.addEventListener("click", removeBook);
+
+    newTitle.value = "";
+    newAuthor.value = "";
+    newPages.value = "";
   }
 }
 
@@ -113,69 +160,14 @@ function testValid() {
   }
 }
 
-function addBookDom(newBook) {
-  if (newAuthor.validity.valueMissing) {
-    newAuthor.value = "-";
-  }
-
-  if (newPages.validity.valueMissing) {
-    newPages.value = "-";
-  }
-
-  let newRow = myBooks.insertRow(1);
-  newRow.insertCell(0).innerHTML = newBook.title;
-  newRow.insertCell(1).innerHTML = newBook.author;
-  newRow.insertCell(2).innerHTML = newBook.pages;
-
-  let read_cell = newRow.insertCell(3);
-  let read_button = document.createElement("BUTTON");
-  let read_text = document.createTextNode(newBook.read);
-  read_button.appendChild(read_text);
-
-  let id_read_button = "r" + newBook.id_book;
-  read_button.setAttribute("id", id_read_button);
-  read_button.setAttribute("class", "haveRead");
-
-  if (newRead.value === "read") {
-    read_button.style.backgroundColor = "green";
-    read_button.style.color = "white";
-  }
-
-  read_cell.appendChild(read_button);
-  read_button.addEventListener("click", toggleRead);
-
-  newRow.dataset.idRow = newBook.id_book;
-
-  const delete_button = document.createElement("button");
-  delete_button.setAttribute("class", "delete_book");
-
-  delete_button.setAttribute("id", newBook.id_book);
-
-  newRow.insertCell(4).appendChild(delete_button);
-
-  let del_text = document.createTextNode("  ");
-  delete_button.appendChild(del_text);
-
-  delete_button.addEventListener("click", removeBook);
-
-  newTitle.value = "";
-  newAuthor.value = "";
-  newPages.value = "";
-
-  // Remove the form
-  if (statusForm.style.display === "block") {
-    statusForm.style.display = "none";
-  }
-
-  event.preventDefault();
-}
-
 function toggleRead(e) {
   let id_temp = e.target.id.slice(1);
+  let id_temp_array = id_temp - 1;
+  console.log();
 
   if (e.target.innerText === "No") {
     document.getElementById(e.target.id).textContent = "Yes";
-    myLibrary[id_temp]["read"] = "Yes";
+    myLibrary[id_temp_array]["read"] = "Yes";
     document.getElementById(e.target.id).style.color = "white";
     document.getElementById(e.target.id).style.backgroundColor = "green";
   } else {
@@ -183,60 +175,17 @@ function toggleRead(e) {
     document.getElementById(e.target.id).style.color = "black";
     document.getElementById(e.target.id).style.backgroundColor = "orange";
 
-    myLibrary[id_temp]["read"] = "NO";
-  }
-}
-
-function showLibrary() {
-  // Shows only the books stored on the top of this file
-
-  for (let i = 0; i < myLibrary.length; i++) {
-    let new_row = myBooks.insertRow(1);
-    new_row.dataset.idRow = myLibrary[i]["id_book"];
-
-    let new_cell;
-
-    for (let j = 0; j < 3; j++) {
-      new_cell = new_row.insertCell(j);
-      new_cell.textContent = Object.values(myLibrary[i])[j];
-      console.log();
-    }
-    let read_cell = new_row.insertCell(3);
-    let read_button = document.createElement("BUTTON");
-    let read_text = document.createTextNode(myLibrary[i]["read"]);
-
-    read_button.appendChild(read_text);
-    read_cell.appendChild(read_button);
-
-    if (myLibrary[i]["read"] === "read") {
-      read_button.style.backgroundColor = "green";
-      read_button.style.color = "white";
-    }
-
-    read_button.addEventListener("click", toggleRead);
-
-    let id_read_button = "r" + myLibrary[i]["id_book"];
-    read_button.setAttribute("id", id_read_button);
-    read_button.setAttribute("class", "haveRead");
-
-    let del_cell = new_row.insertCell(4);
-    var del_button = document.createElement("BUTTON");
-    let del_text = document.createTextNode("  ");
-    del_button.appendChild(del_text);
-    del_button.setAttribute("class", "delete_book");
-    del_button.setAttribute("id", myLibrary[i]["id_book"]);
-    del_cell.appendChild(del_button);
-    del_button.addEventListener("click", removeBook);
+    myLibrary[id_temp_array]["read"] = "NO";
+    console.log(myLibrary[id_temp_array]);
   }
 }
 
 function removeBook(e) {
   const id_remove = e.target.id;
-  myLibrary.splice(id_remove, 1);
+  const id_remove_array = id_remove - 1;
+  myLibrary.splice(id_remove_array, 1);
   document.querySelector(`[data-id-row = "${id_remove}"]`).remove();
 }
-
-showLibrary();
 
 function showForm() {
   statusForm.style.display === "block"
@@ -244,7 +193,7 @@ function showForm() {
     : (statusForm.style.display = "block");
 }
 
-function addBookBackstage() {
+function addBookHandle() {
   let title1 = newTitle.value;
   let author1 = newAuthor.value;
   let approvalTesting = testValid();
@@ -267,7 +216,7 @@ function addBookBackstage() {
         newRead.value
       );
       approvedBook.addBook();
-      addBookDom(approvedBook);
+
       // Remove the form
       if (statusForm.style.display === "block") {
         statusForm.style.display = "none";
