@@ -129,31 +129,43 @@ function testValid() {
   let testTitle = false;
   let testPages = false;
 
-  let approvalRating = includesBook([newTitle.value, newAuthor.value]);
-
-  if (approvalRating) {
-    newTitle.setCustomValidity("Please, write the title of a new book");
-    newTitle.reportValidity();
-  }
-
   if (newTitle.validity.valueMissing) {
     newTitle.setCustomValidity("Please, write the title of a new book");
     newTitle.reportValidity();
   } else {
-    newTitle.setCustomValidity("");
-    testTitle = true;
+    if (newTitle.value.length > 120) {
+      newTitle.setCustomValidity("Are you f@@@@@g kidding me?");
+      newTitle.reportValidity();
+    } else {
+      newTitle.setCustomValidity("");
+      testTitle = true;
+    }
   }
 
-  var numbers = /^[-+]?[0-9]+$/;
+  let numbers = /^[1-9]+[0-9]*$/;
+  let zeroNumbers = /^0[0-9]*$/;
+  let notANumber = /^\d*[^\d]\d*$/;
+
   if (newPages.value.match(numbers) || newPages.value === "") {
-    testPages = true;
-  } else if (!newPages.value.match(numbers) && newPages.value !== "") {
-    newPages.setCustomValidity("Please, write a number");
+    let numberPages = Number(newPages.value);
+    if (numberPages > 400) {
+      newPages.setCustomValidity("Sorry, this is very big for our library");
+      newPages.reportValidity();
+    } else {
+      testPages = true;
+    }
+  } else if (newPages.value.match(zeroNumbers)) {
+    newPages.setCustomValidity("The number of pages cannot start from zero");
     newPages.reportValidity();
-    testPages = false;
+  } else if (newPages.value.match(notANumber)) {
+    newPages.setCustomValidity(
+      "Please, write a number without any other characters"
+    );
+    newPages.reportValidity();
+    //testPages = false;
   }
 
-  if (testPages === true && testTitle === true && testPages === true) {
+  if (testPages === true && testTitle === true) {
     testPages = false;
     testTitle = false;
 
@@ -179,7 +191,6 @@ function toggleRead(e) {
     document.getElementById(e.target.id).style.backgroundColor = "orange";
 
     myLibrary[id_temp_array]["read"] = "NO";
-    console.log(myLibrary[id_temp_array]);
   }
 }
 
@@ -206,12 +217,8 @@ function addBookHandle() {
   let approvalTesting = testValid();
   let approvalRating = includesBook([title1, author1]);
 
-  // We don't want to add a book without a title
-  if (title1 == "" && author1 == "") {
-    statusForm.style.display = "none";
-  }
-  // We don't want to add the same book twice
-  else if (approvalRating) {
+  //We don't want to add the same book twice
+  if (approvalRating) {
     newTitle.setCustomValidity("Please, write the title of a new book");
     newTitle.reportValidity();
   } else {

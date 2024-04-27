@@ -119,8 +119,11 @@ tr:hover {
     color: white;
 }
 
-#addBook {
+#addBook,
+#cancelForm {
     padding: 5px;
+    margin: 15px;
+
 }
 
 .haveRead {
