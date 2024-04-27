@@ -17,6 +17,9 @@ showFormElement.addEventListener("click", showForm);
 const addBookButton = document.getElementById("addBook");
 addBookButton.addEventListener("click", addBookHandle);
 
+const cancelForm = document.getElementById("cancelForm");
+cancelForm.addEventListener("click", formCanceling);
+
 class LibraryBooks {
   id_book = myLibrary.length + 1;
   constructor(title, author, pages, read) {
@@ -191,6 +194,10 @@ function showForm() {
   statusForm.style.display === "block"
     ? (statusForm.style.display = "none")
     : (statusForm.style.display = "block");
+}
+
+function formCanceling() {
+  statusForm.style.display = "none";
 }
 
 function addBookHandle() {
